@@ -1,0 +1,17 @@
+name: Test cloudwatch_logger
+on:
+  pull_request:
+  push:
+    branches:
+      - *
+jobs:
+    build-dashing:
+      runs-on: ubuntu-latest
+      name: Build Dashing
+      container:
+        image: ros:dashing-ros-core
+      steps:
+      - name: Build
+        uses: ros-tooling/action-ros2-ci@0.0.7
+        with:
+          package-name: cloudwatch_logger
