@@ -53,6 +53,9 @@ int main(int argc, char ** argv)
   std::vector<rclcpp::Subscription<rcl_interfaces::msg::Log>::SharedPtr> subscriptions;
   std::unordered_set<std::string> ignore_nodes;
   Aws::CloudWatchLogs::CloudWatchOptions cloudwatch_options;
+  
+  // optional value
+  bool is_integ_test;
 
 
   std::shared_ptr<Aws::Client::ParameterReaderInterface> parameter_reader =
@@ -67,10 +70,16 @@ int main(int argc, char ** argv)
   ReadIgnoreNodesSet(parameter_reader, ignore_nodes);
 
   ReadCloudWatchOptions(parameter_reader, cloudwatch_options);
+  
+  ReadIsIntegTest(parameter_reader, is_integ_test);
 
   // configure aws settings
   Aws::Client::ClientConfigurationProvider client_config_provider(parameter_reader);
   Aws::Client::ClientConfiguration config = client_config_provider.GetClientConfiguration();
+  
+  if (is_integ_test) {
+    config.scheme = Aws::Http::Scheme::HTTP;
+  }
 
   Aws::SDKOptions sdk_options;
 

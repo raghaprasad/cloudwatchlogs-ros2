@@ -97,6 +97,25 @@ Aws::AwsError ReadLogStream(std::shared_ptr<Aws::Client::ParameterReaderInterfac
   return ret;
 }
 
+Aws::AwsError ReadIsIntegTest(std::shared_ptr<Aws::Client::ParameterReaderInterface> parameter_reader,
+                            bool & is_integ_test)
+{
+  Aws::AwsError ret =
+    parameter_reader->ReadParam(ParameterPath(kNodeParamIsIntegTest), is_integ_test);
+  switch (ret) {
+    case Aws::AwsError::AWS_ERR_OK:
+      AWS_LOGSTREAM_INFO(
+        __func__, "Is integration test is set to: " << is_integ_test);
+      break;
+    default:
+      is_integ_test = false;
+      AWS_LOGSTREAM_INFO(
+        __func__,
+        "Is not integration test");
+  }
+  return ret;
+}
+
 Aws::AwsError ReadSubscribeToRosout(
   std::shared_ptr<Aws::Client::ParameterReaderInterface> parameter_reader,
   bool & subscribe_to_rosout)

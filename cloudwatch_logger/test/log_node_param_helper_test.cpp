@@ -145,6 +145,38 @@ TEST_F(LogNodeParamHelperFixture, TestReadLogStream)
   EXPECT_STREQ(expected_param_value.c_str(), param.c_str());
 }
 
+TEST_F(LogNodeParamHelperFixture, TestReadIsIntegTest)
+{
+  bool expected_param_value = ! false;
+  
+  {
+    InSequence read_param_seq;
+
+    EXPECT_CALL(*param_reader_, ReadParam(Eq(ParameterPath(kNodeParamIsIntegTest)), A<bool &>()))
+    .WillOnce(Return(AwsError::AWS_ERR_FAILURE));
+
+    EXPECT_CALL(*param_reader_, ReadParam(Eq(ParameterPath(kNodeParamIsIntegTest)), A<bool &>()))
+    .WillOnce(Return(AwsError::AWS_ERR_NOT_FOUND));
+
+    EXPECT_CALL(*param_reader_, ReadParam(Eq(ParameterPath(kNodeParamIsIntegTest)), A<bool &>()))
+    .WillOnce(
+      DoAll(SetArgReferee<1>(expected_param_value), Return(AwsError::AWS_ERR_OK))
+    );
+  }
+
+  bool param = ! false;
+  EXPECT_EQ(AwsError::AWS_ERR_FAILURE, ReadIsIntegTest(param_reader_, param));
+  EXPECT_EQ(false, param);
+
+  param = ! false;;
+  EXPECT_EQ(AwsError::AWS_ERR_NOT_FOUND, ReadIsIntegTest(param_reader_, param));
+  EXPECT_EQ(false, param);
+
+  param = ! false;
+  EXPECT_EQ(AwsError::AWS_ERR_OK, ReadIsIntegTest(param_reader_, param));
+  EXPECT_EQ(expected_param_value, param);
+}
+
 TEST_F(LogNodeParamHelperFixture, TestReadSubscribeToRosout)
 {
   bool expected_param_value = ! kNodeSubscribeToRosoutDefaultValue;

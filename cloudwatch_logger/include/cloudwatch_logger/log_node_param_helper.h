@@ -31,6 +31,7 @@ constexpr char kNodeRosoutAggregatedTopicName[] = "rosout";
 
 constexpr char kNodeParamLogStreamNameKey[] = "log_stream_name";
 constexpr char kNodeParamPublishFrequencyKey[] = "publish_frequency";
+constexpr char kNodeParamIsIntegTest[] = "is_integ_test";
 constexpr char kNodeParamSubscribeToRosoutKey[] = "sub_to_rosout";
 constexpr char kNodeParamLogGroupNameKey[] = "log_group_name";
 constexpr char kNodeParamLogTopicsListKey[] = "topics";
@@ -79,6 +80,17 @@ Aws::AwsError ReadPublishFrequency(
  */
 Aws::AwsError ReadLogGroup(std::shared_ptr<Aws::Client::ParameterReaderInterface> parameter_reader,
                            std::string & log_group);
+                           
+/**
+ * Fetch the parameter for whether the current session is an integration test.
+ *
+ * @param parameter_reader to retrieve the parameters from.
+ * @param is_integ_test the parameter is stored here when it is read successfully.
+ * @return an error code that indicates whether the parameter was read successfully or not, 
+ * as returned by \p parameter_reader
+ */                           
+Aws::AwsError ReadIsIntegTest(std::shared_ptr<Aws::Client::ParameterReaderInterface> parameter_reader,
+                            bool & is_integ_test);
 
 /**
  * Fetch the parameter for the AWS CloudWatch log stream name.
