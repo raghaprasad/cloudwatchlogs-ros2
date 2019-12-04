@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
     branches:
-      - *
+      - github_actions
 jobs:
     build-dashing:
       runs-on: ubuntu-latest
