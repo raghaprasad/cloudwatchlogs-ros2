@@ -20,7 +20,7 @@ async function run() {
 		if (process.platform != "win32") {
 			await exec.exec("bash", [
 				"-c",
-				"source /opt/ros/dashing/setup.bash"
+				"source /opt/ros/dashing/setup.sh"
 			]);
 			await exec.exec("apt-get", ["update"]);
 			await exec.exec("rosdep", ["update"]);
@@ -93,7 +93,7 @@ EOF`
 			"bash",
 			[
 				"-c",
-				"DEBIAN_FRONTEND=noninteractive RTI_NC_LICENSE_ACCEPTED=yes rosdep install -r --from-paths src --ignore-src --rosdistro dashing -y || true"
+				"source /opt/ros/dashing/setup.bash && DEBIAN_FRONTEND=noninteractive RTI_NC_LICENSE_ACCEPTED=yes rosdep install -r --from-paths src --ignore-src --rosdistro dashing -y || true"
 			],
 			options
 		);

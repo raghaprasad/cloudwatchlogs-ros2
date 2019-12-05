@@ -4791,7 +4791,7 @@ function run() {
             if (process.platform != "win32") {
                 yield exec.exec("bash", [
                     "-c",
-                    "source /opt/ros/dashing/setup.bash"
+                    "source /opt/ros/dashing/setup.sh"
                 ]);
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
@@ -4852,7 +4852,7 @@ EOF`
             // ignore those failures, as it is often non-critical.
             yield exec.exec("bash", [
                 "-c",
-                "DEBIAN_FRONTEND=noninteractive RTI_NC_LICENSE_ACCEPTED=yes rosdep install -r --from-paths src --ignore-src --rosdistro dashing -y || true"
+                "source /opt/ros/dashing/setup.bash && DEBIAN_FRONTEND=noninteractive RTI_NC_LICENSE_ACCEPTED=yes rosdep install -r --from-paths src --ignore-src --rosdistro dashing -y || true"
             ], options);
             if (colconMixinName !== "" && colconMixinRepo !== "") {
                 yield exec.exec("colcon", ["mixin", "add", "default", colconMixinRepo]);
