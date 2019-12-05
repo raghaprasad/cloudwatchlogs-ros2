@@ -4800,14 +4800,11 @@ function run() {
                                 if (contents.length != 2) {
                                     return;
                                 }
-                                // core.exportVariable(contents[0], contents[1]);
                                 newEnv[contents[0]] = contents[1];
-                                // process.env[contents[0]] = contents[1];
                             });
                         }
                     }
                 };
-                console.log("this is the new", JSON.stringify(newEnv));
                 yield exec.exec("bash", [
                     "-c",
                     "source /opt/ros/dashing/setup.bash && printenv"
@@ -4816,6 +4813,7 @@ function run() {
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
             }
+            console.log("this is the new", JSON.stringify(newEnv));
             // Checkout ROS 2 from source and install ROS 2 system dependencies
             yield io.mkdirP(ros2WorkspaceDir + "/src");
             const options = {
@@ -4904,22 +4902,18 @@ EOF`
             ]
                 .concat(packageNameList)
                 .concat(extra_options), options);
-            // await exec.exec(
-            // 	"colcon",
-            // 	[
-            // 		"test",
-            // 		"--event-handlers",
-            // 		"console_cohesion+",
-            // 		"--pytest-args",
-            // 		"'--cov=.'",
-            // 		"'--cov-report=xml'",
-            // 		"--return-code-on-test-failure",
-            // 		"--packages-select"
-            // 	]
-            // 		.concat(packageNameList)
-            // 		.concat(extra_options),
-            // 	options
-            // );
+            yield exec.exec("colcon", [
+                "test",
+                "--event-handlers",
+                "console_cohesion+",
+                "--pytest-args",
+                "'--cov=.'",
+                "'--cov-report=xml'",
+                "--return-code-on-test-failure",
+                "--packages-select"
+            ]
+                .concat(packageNameList)
+                .concat(extra_options), options);
             // ignoreReturnCode is set to true to avoid  having a lack of coverage
             // data fail the build.
             // await exec.exec(
