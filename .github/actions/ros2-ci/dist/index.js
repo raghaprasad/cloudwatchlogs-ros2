@@ -4793,19 +4793,25 @@ function run() {
                 const options = {
                     listeners: {
                         stdout: (data) => {
-                            const contents = data.toString().split("=");
-                            console.log("This is the content: ", data.toString());
-                            core.exportVariable(contents[0], contents[1]);
-                            newEnv[contents[0]] = contents[1];
-                            process.env[contents[0]] = contents[1];
+                            const lines = data.toString().split("\n");
+                            lines.forEach(line => {
+                                const contents = line.trim().split("=");
+                                console.log("This is the content: ", line);
+                                if (contents.length != 2) {
+                                    return;
+                                }
+                                // core.exportVariable(contents[0], contents[1]);
+                                newEnv[contents[0]] = contents[1];
+                                // process.env[contents[0]] = contents[1];
+                            });
                         }
                     }
                 };
+                console.log("this is the new", JSON.stringify(newEnv));
                 yield exec.exec("bash", [
                     "-c",
                     "source /opt/ros/dashing/setup.bash && printenv"
                 ], options);
-                console.log("this is the new", JSON.stringify(newEnv));
                 yield exec.exec("echo", ["$AMENT_PREFIX_PATH"]);
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
