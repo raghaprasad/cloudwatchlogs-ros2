@@ -4789,6 +4789,10 @@ function run() {
             // rosdep on Windows does not reliably work on Windows, see
             // ros-infrastructure/rosdep#610 for instance. So, we do not run it.
             if (process.platform != "win32") {
+                yield exec.exec("bash", [
+                    "-c",
+                    "source /opt/ros/dashing/setup.bash"
+                ]);
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
             }
