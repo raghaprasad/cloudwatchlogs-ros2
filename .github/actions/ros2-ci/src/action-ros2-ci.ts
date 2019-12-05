@@ -33,7 +33,8 @@ async function run() {
 			await exec.exec("bash", [
 				"-c",
 				"source /opt/ros/dashing/setup.bash && printenv"
-			], options)
+			], options);
+			console.log("this is the new", JSON.stringify(newEnv));
 			await exec.exec("echo", ["$AMENT_PREFIX_PATH"]);
 			await exec.exec("apt-get", ["update"]);
 			await exec.exec("rosdep", ["update"]);
@@ -43,7 +44,8 @@ async function run() {
 		await io.mkdirP(ros2WorkspaceDir + "/src");
 
 		const options = {
-			cwd: ros2WorkspaceDir
+			cwd: ros2WorkspaceDir,
+			env: newEnv
 		};
 		// await exec.exec(
 		// 	"bash",

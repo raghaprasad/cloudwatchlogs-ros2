@@ -4805,6 +4805,7 @@ function run() {
                     "-c",
                     "source /opt/ros/dashing/setup.bash && printenv"
                 ], options);
+                console.log("this is the new", JSON.stringify(newEnv));
                 yield exec.exec("echo", ["$AMENT_PREFIX_PATH"]);
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
@@ -4812,7 +4813,8 @@ function run() {
             // Checkout ROS 2 from source and install ROS 2 system dependencies
             yield io.mkdirP(ros2WorkspaceDir + "/src");
             const options = {
-                cwd: ros2WorkspaceDir
+                cwd: ros2WorkspaceDir,
+                env: newEnv
             };
             // await exec.exec(
             // 	"bash",
