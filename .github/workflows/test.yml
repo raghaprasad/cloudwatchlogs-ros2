@@ -11,6 +11,8 @@ jobs:
       container:
         image: ros:dashing-ros-core
       steps:
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Build
         uses: ./.github/actions/ros2-ci/
         with:
