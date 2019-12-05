@@ -4789,6 +4789,7 @@ function run() {
             // rosdep on Windows does not reliably work on Windows, see
             // ros-infrastructure/rosdep#610 for instance. So, we do not run it.
             if (process.platform != "win32") {
+                yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
             }
             // Checkout ROS 2 from source and install ROS 2 system dependencies
