@@ -1,0 +1,24 @@
+name: 'ROS 2 CI Action'
+description: 'Run ROS 2 package test in CI using Github Actions.'
+author: 'ROS Tooling Working Group'
+branding:
+  icon: 'activity'
+  color: 'gray-dark'
+inputs:
+  colcon-mixin-name:
+    default: ''
+    description: 'Colcon mixin to be used to compile and test (empty means no mixin)'
+    required: false
+  colcon-mixin-repository:
+    default: 'https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml'
+    description: 'Mixin repository containing the mixin specified in colcon-mixin-name'
+    required: false
+  package-name:
+    description: |
+        Name of the package(s) under test, as expected by colcon.
+        Passing multiple package names is allowed.
+        Package names can be separated by any whitespace character.
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

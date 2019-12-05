@@ -12,6 +12,6 @@ jobs:
         image: ros:dashing-ros-core
       steps:
       - name: Build
-        uses: ros-tooling/action-ros2-ci@0.0.7
+        uses: ./.github/actions/ros2-ci/
         with:
           package-name: cloudwatch_logger

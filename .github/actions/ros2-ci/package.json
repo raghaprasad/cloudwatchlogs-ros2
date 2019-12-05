@@ -1,0 +1,52 @@
+{
+  "name": "action-ros2-ci",
+  "version": "0.0.0",
+  "description": "GitHub Action compiling and testing a ROS 2 package",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "ncc build src/action-ros2-ci.ts -o dist",
+    "lint": "eslint src/action-ros2-ci.ts",
+    "prettier": "prettier --write 'src/action-ros2-ci.ts'",
+    "test": "eslint src/action-ros2-ci.ts && jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ros-tooling/action-ros2-ci.git"
+  },
+  "keywords": [
+    "actions",
+    "ros2",
+    "ci"
+  ],
+  "author": "ROS 2 Tooling Working Group",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ros-tooling/action-ros2-ci/issues"
+  },
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@actions/exec": "^1.0.1",
+    "@actions/github": "^1.1.0",
+    "@actions/io": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.12.5",
+    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/parser": "^2.4.0",
+    "@zeit/ncc": "^0.20.5",
+    "acorn": "^7.1.0",
+    "eslint": "^6.5.1",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.7.1",
+    "prettier": "1.19.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  }
+}
