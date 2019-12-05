@@ -18,10 +18,18 @@ async function run() {
 		// rosdep on Windows does not reliably work on Windows, see
 		// ros-infrastructure/rosdep#610 for instance. So, we do not run it.
 		if (process.platform != "win32") {
+			const options = {
+				listeners : {
+					stdout: (data: Buffer) => {
+						const contents = data.toString().split("=");
+						core.exportVariable(contents[0], contents[1])
+					}
+				}
+			};
 			await exec.exec("bash", [
 				"-c",
-				"source /opt/ros/dashing/setup.sh"
-			]);
+				"source /opt/ros/dashing/setup.bash && printenv"
+			], options)
 			await exec.exec("apt-get", ["update"]);
 			await exec.exec("rosdep", ["update"]);
 		}
