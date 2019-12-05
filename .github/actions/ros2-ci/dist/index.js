@@ -4788,12 +4788,16 @@ function run() {
             const ros2WorkspaceDir = path.join(workspace, "ros2_ws");
             // rosdep on Windows does not reliably work on Windows, see
             // ros-infrastructure/rosdep#610 for instance. So, we do not run it.
+            const newEnv = {};
             if (process.platform != "win32") {
                 const options = {
                     listeners: {
                         stdout: (data) => {
                             const contents = data.toString().split("=");
+                            console.log("This is the content: ", data.toString());
                             core.exportVariable(contents[0], contents[1]);
+                            newEnv[contents[0]] = contents[1];
+                            process.env[contents[0]] = contents[1];
                         }
                     }
                 };
@@ -4801,6 +4805,7 @@ function run() {
                     "-c",
                     "source /opt/ros/dashing/setup.bash && printenv"
                 ], options);
+                yield exec.exec("echo", ["$AMENT_PREFIX_PATH"]);
                 yield exec.exec("apt-get", ["update"]);
                 yield exec.exec("rosdep", ["update"]);
             }
